@@ -51,3 +51,46 @@ cv2.waitKey(0)
 
 
 cv2.destroyAllWindows()
+
+ 
+Модуль обробки зображення image_processor
+
+import cv2
+
+def preprocess_image(path):
+
+image = cv2.imread(path)
+
+image = cv2.resize(
+image,
+(640,640)
+)
+
+return image
+
+
+Модуль детекції
+from ultralytics import YOLO
+
+class ObjectDetector:
+
+def __init__(self):
+self.model = YOLO(
+"yolov8n.pt"
+)
+
+def detect(self,image):
+return self.model(image)
+Запуск програми
+Для запуску програми використовується команда:
+
+python “projectname”
+
+Приклад результату роботи
+
+Detected:
+Person 0.95
+Car 0.92
+Dog 0.91
+
+
