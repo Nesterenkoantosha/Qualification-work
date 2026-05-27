@@ -1,0 +1,53 @@
+Основний файл програми
+import cv2
+from ultralytics import YOLO
+
+# Завантаження моделі YOLO
+model = YOLO("yolov8n.pt")
+
+# Завантаження зображення
+image = cv2.imread("image.jpg")
+
+# Запуск розпізнавання об'єктів
+results = model(image)
+
+# Відображення результатів
+for result in results:
+boxes = result.boxes
+
+for box in boxes:
+x1, y1, x2, y2 = map(int, box.xyxy[0])
+
+confidence = float(box.conf[0])
+
+class_id = int(box.cls[0])
+
+label = model.names[class_id]
+
+# Малювання рамки
+cv2.rectangle(
+image,
+(x1,y1),
+(x2,y2),
+(0,255,0),
+2
+)
+
+# Підпис
+cv2.putText(
+image,
+f"{label} {confidence:.2f}",
+(x1,y1-10),
+cv2.FONT_HERSHEY_SIMPLEX,
+0.5,
+(0,255,0),
+2
+)
+
+# Показ результату
+cv2.imshow("Detection Result", image)
+
+cv2.waitKey(0)
+
+
+cv2.destroyAllWindows()
